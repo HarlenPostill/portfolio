@@ -58,6 +58,9 @@
   align-self: stretch;
   position: relative;
   z-index: 1;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .section-highlight {
@@ -101,4 +104,40 @@
 
 .entry-date {
   color: var(--text-tertiary);
+}
+
+.link-preview {
+  position: absolute;
+  left: calc(100% + 28px);
+  width: 264px;
+  border-radius: 10px;
+  border: 1px solid rgba(156, 112, 82, 0.25);
+  box-shadow: 0 8px 32px rgba(90, 55, 30, 0.18), 0 2px 8px rgba(90, 55, 30, 0.1);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-50%) translateX(-6px);
+  transition: top 0.2s ease, opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.link-preview.visible {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.link-preview-frame {
+  width: 264px;
+  height: 178px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.link-preview-frame iframe {
+  width: 1056px;
+  height: 712px;
+  border: none;
+  transform: scale(0.25);
+  transform-origin: top left;
+  pointer-events: none;
 }

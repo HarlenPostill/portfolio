@@ -2,20 +2,31 @@ import React, { useState, useRef } from 'react'
 import './App.css'
 
 const workItems = [
-  { title: 'OneTeam Services', role: 'Senior Associate Software Engineer', description: 'Innovative software solutions for Fintech enterprise collaboration and automation', date: 'Aug 2023 - Now' },
-  { title: 'PantryPal', role: 'Lead Founding Engineer', description: 'Meal planning app reducing food waste with AI-powered recipe suggestions', date: 'Jun 2024 - Now' },
+  { title: 'OneTeam Services', role: 'Senior Associate Software Engineer', description: 'Innovative software solutions for Fintech enterprise collaboration and automation', date: 'Aug 2023 - Now', url: 'https://www.oneteam.services/' },
+  { title: 'PantryPal', role: 'Lead Founding Engineer', description: 'Meal planning app reducing food waste with AI-powered recipe suggestions', date: 'Jun 2024 - Now', url: 'https://www.pantrypal.com.au/' },
 ]
 
 const projectItems = [
-  { title: 'Guidedog vs code', role: 'Co Creator', description: 'Automatically scan code for accessibility issues and suggests fixes directly in vs code' },
-  { title: 'Petal Path', role: 'Creator', description: 'Gamifies community mapping to find accessible routes for wheelchair users on iOS & android' },
-  { title: 'Tiny', role: 'Creator', description: 'Extremely small browser the size of a widget for simple queries on macOS' },
-  { title: 'Overshadowed', role: 'Co Creator', description: 'Puzzle game where you control a cat and its companion shadow at the same time' },
-  { title: 'Narnigrams', role: 'Creator', description: 'Word game for iOS based on the game bananagrams' },
-  { title: 'Feather & Bone', role: 'Creator', description: 'Puzzle game where you control a cat and its companion shadow at the same time' },
+  { title: 'Guidedog vs code', role: 'Co Creator', description: 'Automatically scan code for accessibility issues and suggests fixes directly in vs code', url: 'https://marketplace.visualstudio.com/items?itemName=Guidedog-extension.GuideDogVS' },
+  { title: 'Petal Path', role: 'Creator', description: 'Gamifies community mapping to find accessible routes for wheelchair users on iOS & android', url: 'https://news.samsung.com/au/inventive-device-to-help-prevent-overuse-of-pesticides-in-agriculture-wins-samsungs-solve-for-tomorrow-competition' },
+  { title: 'Tiny', role: 'Creator', description: 'Extremely small browser the size of a widget for simple queries on macOS', url: 'https://hrln-interactive.vercel.app/tiny' },
+  { title: 'Overshadowed', role: 'Co Creator', description: 'Puzzle game where you control a cat and its companion shadow at the same time', url: 'https://auroraechoes.itch.io/overshadowed' },
+  { title: 'Narnigrams', role: 'Creator', description: 'Word game for iOS based on the game bananagrams', url: 'https://hrln-interactive.vercel.app/' },
+  { title: 'Feather & Bone', role: 'Creator', description: 'Puzzle game where you control a cat and its companion shadow at the same time', url: 'https://hrln-interactive.vercel.app/' },
 ]
 
-function Entry({ title, role, description, date }: { title: string; role: string; description: string; date?: string }) {
+function LinkPreview({ url, top, visible }: { url: string; top: number; visible: boolean }) {
+  const domain = (() => { try { return new URL(url).hostname } catch { return url } })()
+  return (
+    <div className={`link-preview${visible ? ' visible' : ''}`} style={{ top }}>
+      <div className='link-preview-frame'>
+        <iframe key={url} src={url} title={domain} sandbox='allow-scripts allow-same-origin' />
+      </div>
+    </div>
+  )
+}
+
+function Entry({ title, role, description, date, url: _url }: { title: string; role: string; description: string; date?: string; url?: string }) {
   return (
     <div className='entry'>
       <div className='entry-header'>
@@ -33,29 +44,42 @@ function Entry({ title, role, description, date }: { title: string; role: string
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   const [highlight, setHighlight] = useState({ top: 0, height: 0 })
   const [visible, setVisible] = useState(false)
+  const [previewUrl, setPreviewUrl] = useState('')
+  const [previewTop, setPreviewTop] = useState(0)
   const listRef = useRef<HTMLDivElement>(null)
 
-  const handleEntryEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleEntryEnter = (e: React.MouseEvent<HTMLElement>, url?: string) => {
     if (!listRef.current) return
     const listRect = listRef.current.getBoundingClientRect()
     const entryRect = e.currentTarget.getBoundingClientRect()
     setHighlight({ top: entryRect.top - listRect.top, height: entryRect.height })
     setVisible(true)
+    setPreviewUrl(url || '')
+    if (url) setPreviewTop(entryRect.top - listRect.top + entryRect.height / 2)
   }
 
   return (
     <div className='section'>
       <h2>{title}</h2>
       <div className='section-entries' ref={listRef} onMouseLeave={() => setVisible(false)}>
-        {React.Children.map(children, child => (
-          <div className='entry-hover-wrapper' onMouseEnter={handleEntryEnter}>
-            {child}
-          </div>
-        ))}
+        {React.Children.map(children, child => {
+          const url = React.isValidElement(child) ? (child.props as any).url : undefined
+          const Tag = url ? 'a' : 'div'
+          return (
+            <Tag
+              className='entry-hover-wrapper'
+              onMouseEnter={(e: React.MouseEvent<HTMLElement>) => handleEntryEnter(e, url)}
+              {...(url ? { href: url, target: '_blank', rel: 'noreferrer' } : {})}
+            >
+              {child}
+            </Tag>
+          )
+        })}
         <div
           className={`section-highlight${visible ? ' visible' : ''}`}
           style={{ top: highlight.top - 6, height: highlight.height + 12 }}
         />
+        {previewUrl && <LinkPreview url={previewUrl} top={previewTop} visible={visible} />}
       </div>
     </div>
   )
