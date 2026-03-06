@@ -48,7 +48,7 @@ body {
   letter-spacing: -1.36px;
 }
 
-.h2 {
+h2 {
   font-family: 'Funnel Display', sans-serif;
   color: var(--text-primary, #684F38);
   font-size: 22px;
@@ -58,7 +58,7 @@ body {
   letter-spacing: -0.44px;
 }
 
-.h3 {
+h3 {
   font-family: 'Funnel Display', sans-serif;
   color: var(--text-primary, #684F38);
   font-size: 18px;
@@ -69,7 +69,7 @@ body {
   
 }
 
-.h4 {
+h4 {
   font-family: 'Funnel Display', sans-serif;
   color: var(--Primary, #42754C);
   font-size: 14px;
@@ -88,7 +88,7 @@ body {
   letter-spacing: -0.36px;
 }
 
-.body {
+p {
   font-family: 'Funnel Sans', sans-serif;
   color: var(--text-secondary, #8D664D);
   font-size: 14px;
