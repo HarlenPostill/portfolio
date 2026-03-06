@@ -1,0 +1,61 @@
+.app {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding-top: 120px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.social-icons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.social-icon {
+  height: 18px;
+  width: 18px;
+  border-radius: 4px;
+  background-color: var(--text-tertiary);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+}
+
+.entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+}
+
+.entry-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.entry-date {
+  color: var(--text-tertiary);
+}

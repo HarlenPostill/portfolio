@@ -1,4 +1,5 @@
 import React from 'react'
+import './App.css'
 
 const workItems = [
   { title: 'OneTeam Services', role: 'Senior Associate Software Engineer', description: 'Innovative software solutions for Fintech enterprise collaboration and automation', date: 'Aug 2023 - Now' },
@@ -16,13 +17,13 @@ const projectItems = [
 
 function Entry({ title, role, description, date }: { title: string; role: string; description: string; date?: string }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, alignSelf: 'stretch' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', alignSelf: 'stretch' }}>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+    <div className='entry'>
+      <div className='entry-header'>
+        <div className='entry-title'>
           <h3>{title}</h3>
           <h4>{role}</h4>
         </div>
-        {date && <h4 style={{ color: 'var(--text-tertiary)' }}>{date}</h4>}
+        {date && <h4 className='entry-date'>{date}</h4>}
       </div>
       <p>{description}</p>
     </div>
@@ -31,7 +32,7 @@ function Entry({ title, role, description, date }: { title: string; role: string
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12, alignSelf: 'stretch' }}>
+    <div className='section'>
       <h2>{title}</h2>
       {children}
     </div>
@@ -40,13 +41,13 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function App() {
   return (
-    <div style={{ width: 600, display: 'flex', gap: 24, alignItems: 'flex-start', flexDirection: 'column', paddingTop: 120 }}>
+    <div className='app'>
       <h1 className='title'>HRLN interactive</h1>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 11 }}>
+      <div className='header'>
         <h3 className='subtitle'>Software engineer, UI/UX designer & Game Developer</h3>
-        <div style={{ display: 'flex', flexDirection: 'row', gap: 12 }}>
+        <div className='social-icons'>
           {[0, 1, 2].map(i => (
-            <div key={i} style={{ height: 18, width: 18, borderRadius: 4, backgroundColor: 'var(--text-tertiary)' }} />
+            <div key={i} className='social-icon' />
           ))}
         </div>
       </div>
