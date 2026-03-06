@@ -1,5 +1,26 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
 import './App.css'
+
+const shuffleFonts = [
+  'Georgia, serif',
+  'Courier New, monospace',
+  'Impact, sans-serif',
+  'Palatino, serif',
+  'Trebuchet MS, sans-serif',
+  'Verdana, sans-serif',
+  'Garamond, serif',
+  'Brush Script MT, cursive',
+  'Lucida Console, monospace',
+  'Comic Sans MS, cursive',
+  'Times New Roman, serif',
+  'Arial Black, sans-serif',
+  'Copperplate, fantasy',
+  'Didot, serif',
+  'Futura, sans-serif',
+  'Gill Sans, sans-serif',
+  'Baskerville, serif',
+  'Rockwell, serif',
+]
 
 const workItems = [
   { title: 'OneTeam Services', role: 'Senior Associate Software Engineer', description: 'Innovative software solutions for Fintech enterprise collaboration and automation', date: 'Aug 2023 - Now', url: 'https://www.oneteam.services/' },
@@ -86,9 +107,60 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 function App() {
+  const [phase, setPhase] = useState<'center' | 'settle' | 'done'>('center')
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const [titleStyle, setTitleStyle] = useState<React.CSSProperties>({})
+  const [titleFont, setTitleFont] = useState<string | undefined>(undefined)
+  const fontInterval = useRef<ReturnType<typeof setInterval>>(null)
+
+  const startFontShuffle = useCallback(() => {
+    let i = 0
+    fontInterval.current = setInterval(() => {
+      setTitleFont(shuffleFonts[i % shuffleFonts.length])
+      i++
+    }, 70)
+  }, [])
+
+  const stopFontShuffle = useCallback(() => {
+    if (fontInterval.current) clearInterval(fontInterval.current)
+    setTitleFont(undefined)
+  }, [])
+
+  useLayoutEffect(() => {
+    if (titleRef.current) {
+      const rect = titleRef.current.getBoundingClientRect()
+      const scale = 1.5
+      const targetX = window.innerWidth / 2 - (rect.width * scale) / 2
+      const targetY = window.innerHeight / 2 - (rect.height * scale) / 2
+      const dx = targetX - rect.left
+      const dy = targetY - rect.top
+      setTitleStyle({ transform: `translate(${dx}px, ${dy}px) scale(${scale})` })
+    }
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => setPhase('settle'), 600)
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (phase === 'settle') {
+      setTitleStyle({})
+      startFontShuffle()
+      const timer = setTimeout(() => {
+        stopFontShuffle()
+        setPhase('done')
+      }, 1000)
+      return () => {
+        clearTimeout(timer)
+        stopFontShuffle()
+      }
+    }
+  }, [phase, startFontShuffle, stopFontShuffle])
+
   return (
-    <div className='app'>
-      <h1 className='title'>HRLN interactive</h1>
+    <div className={`app intro-${phase}`}>
+      <h1 className='title intro-title' ref={titleRef} style={{ ...titleStyle, ...(titleFont ? { fontFamily: titleFont } : {}) }}>HRLN interactive</h1>
       <div className='header'>
         <h3 className='subtitle'>Software engineer, UI/UX designer & Game Developer</h3>
         <div className='social-icons'>
@@ -103,12 +175,14 @@ function App() {
           </a>
         </div>
       </div>
-      <Section title='Work'>
-        {workItems.map(item => <Entry key={item.title} {...item} />)}
-      </Section>
-      <Section title='Projects'>
-        {projectItems.map(item => <Entry key={item.title} {...item} />)}
-      </Section>
+      <div className='sections'>
+        <Section title='Work'>
+          {workItems.map(item => <Entry key={item.title} {...item} />)}
+        </Section>
+        <Section title='Projects'>
+          {projectItems.map(item => <Entry key={item.title} {...item} />)}
+        </Section>
+      </div>
     </div>
   )
 }

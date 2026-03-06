@@ -1,3 +1,45 @@
+/* ── Intro animation ──────────────────────────────────────── */
+.intro-title {
+  transform-origin: top left;
+  will-change: transform;
+  z-index: 10;
+  position: relative;
+  white-space: nowrap;
+}
+
+.intro-settle .intro-title {
+  transform: none;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.intro-done .intro-title {
+  transform: none;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-self: stretch;
+}
+
+.intro-center .header,
+.intro-center .sections,
+.intro-settle .header,
+.intro-settle .sections {
+  opacity: 0;
+  filter: blur(12px);
+}
+
+.intro-done .header,
+.intro-done .sections {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
 .app {
   width: 600px;
   display: flex;
