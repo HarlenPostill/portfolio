@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;700&family=Funnel+Sans:wght@400;500;700&display=swap');
+
+/* ── Design tokens ──────────────────────────────────────────── */
+:root {
+  /* Colors */
+  --text-primary:   #684f38;
+  --text-secondary: #8d664d;
+  --text-tertiary:  #b39a8a;
+  --color-primary:   #42754c;
+  --color-secondary: #1e4d2b;
+  --color-accent:    #d66c34;
+
+  /* Typography base */
+  font-family: 'Funnel Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-primary);
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Typography classes ─────────────────────────────────────── */
+.title {
+  font-family: 'Funnel Display', sans-serif;
+  color: var(--Primary, #42754C);
+  font-size: 68px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -1.36px;
+}
+
+.h2 {
+  font-family: 'Funnel Display', sans-serif;
+  color: var(--text-primary, #684F38);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.44px;
+}
+
+.h3 {
+  font-family: 'Funnel Display', sans-serif;
+  color: var(--text-primary, #684F38);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.36px;
+  
+}
+
+.h4 {
+  font-family: 'Funnel Display', sans-serif;
+  color: var(--Primary, #42754C);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.28px;
+}
+
+.subtitle {
+  font-family: 'Funnel Display', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.36px;
+}
+
+.body {
+  font-family: 'Funnel Sans', sans-serif;
+  color: var(--text-secondary, #8D664D);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.28px;
+}
