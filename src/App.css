@@ -4,7 +4,6 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
-  padding-top: 120px;
 }
 
 .header {
@@ -21,10 +20,22 @@
 }
 
 .social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 18px;
   width: 18px;
-  border-radius: 4px;
-  background-color: var(--text-tertiary);
+  color: var(--text-tertiary);
+  transition: color 0.15s ease;
+}
+
+.social-icon:hover {
+  color: var(--text-primary);
+}
+
+.social-icon svg {
+  width: 100%;
+  height: 100%;
 }
 
 .section {
@@ -33,6 +44,38 @@
   align-items: flex-start;
   gap: 12px;
   align-self: stretch;
+}
+
+.section-entries {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.entry-hover-wrapper {
+  align-self: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+.section-highlight {
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  border-radius: 8px;
+  background-color: #e5d0bc40;
+  outline: 1px solid rgba(156, 112, 82, 0.25);
+  box-shadow: inset 0 2px 8px rgba(90, 55, 30, 0.14);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  transition: top 0.2s ease, height 0.2s ease, opacity 0.15s ease;
+}
+
+.section-highlight.visible {
+  opacity: 1;
 }
 
 .entry {
