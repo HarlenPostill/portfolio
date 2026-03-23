@@ -41,7 +41,7 @@
 
 /* ── Layout ──────────────────────────────────────────────── */
 .app {
-  width: 600px;
+  width: min(600px, 100%);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -182,4 +182,24 @@
   transform: scale(0.25);
   transform-origin: top left;
   pointer-events: none;
+}
+
+/* ── Mobile responsiveness ───────────────────────────────── */
+@media (max-width: 640px) {
+  .intro-title {
+    white-space: normal;
+  }
+
+  .entry-header {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .entry-title {
+    flex-wrap: wrap;
+  }
+
+  .link-preview {
+    display: none;
+  }
 }

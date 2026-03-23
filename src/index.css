@@ -109,3 +109,17 @@ p {
   line-height: normal;
   letter-spacing: -0.28px;
 }
+
+/* ── Mobile responsiveness ───────────────────────────────── */
+@media (max-width: 640px) {
+  body {
+    padding-block-start: 60px;
+    padding-block-end: 60px;
+    padding-inline: 20px;
+  }
+
+  .title {
+    font-size: 44px;
+    letter-spacing: -0.88px;
+  }
+}
