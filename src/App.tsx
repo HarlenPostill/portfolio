@@ -50,6 +50,12 @@ const workItems = [
 
 const projectItems = [
   {
+    title: "OneTeam AI Tax",
+    role: "Lead Developer",
+    description: "AI that does real corporate tax work",
+    url: "https://tax-oneteam.vercel.app/",
+  },
+  {
     title: "Guidedog vs code",
     role: "Co Creator",
     description:
