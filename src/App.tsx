@@ -35,14 +35,14 @@ const workItems = [
     role: "Senior Associate Software Engineer",
     description:
       "Innovative software solutions for Fintech enterprise collaboration and automation",
-    date: "Aug 2023 - Now",
-    url: "https://www.oneteam.services/",
+    date: "Aug 2023 - April 2026",
+    url: "https://tax-oneteam.vercel.app/",
   },
   {
     title: "PantryPal",
     role: "Lead Founding Engineer",
     description:
-      "Meal planning app reducing food waste with AI-powered recipe suggestions",
+      "Meal planning app reducing food waste with intelligent recipe suggestions",
     date: "Jun 2024 - Now",
     url: "https://www.pantrypal.com.au/",
   },
@@ -50,10 +50,11 @@ const workItems = [
 
 const projectItems = [
   {
-    title: "OneTeam AI Tax",
+    title: "Community Compass",
     role: "Lead Developer",
-    description: "AI that does real corporate tax work",
-    url: "https://tax-oneteam.vercel.app/",
+    description:
+      "Local community map for Ultimo and nearby areas to get involved and discover resources",
+    url: "https://communitycompass.com.au/",
   },
   {
     title: "Guidedog vs code",
@@ -63,38 +64,30 @@ const projectItems = [
     url: "https://marketplace.visualstudio.com/items?itemName=Guidedog-extension.GuideDogVS",
   },
   {
-    title: "Petal Path",
-    role: "Creator",
-    description:
-      "Gamifies community mapping to find accessible routes for wheelchair users on iOS & android",
-    url: "https://news.samsung.com/au/inventive-device-to-help-prevent-overuse-of-pesticides-in-agriculture-wins-samsungs-solve-for-tomorrow-competition",
-  },
-  {
     title: "Tiny",
     role: "Creator",
     description:
-      "Extremely small browser the size of a widget for simple queries on macOS",
+      "Extremely small weightless browser the size of a widget for simple queries on macOS",
     url: "https://hrln-interactive.vercel.app/tiny",
   },
+];
+
+const honorsItems = [
   {
-    title: "Overshadowed",
-    role: "Co Creator",
+    title: "Samsung Solve for Tomorrow Australia",
+    role: "Runner Up",
+    description:
+      "Gamifies community mapping to find accessible routes for wheelchair users on iOS & android",
+    date: "2024",
+    url: "https://news.samsung.com/au/inventive-device-to-help-prevent-overuse-of-pesticides-in-agriculture-wins-samsungs-solve-for-tomorrow-competition",
+  },
+  {
+    title: "UTS Tech fest - Game Design Methodologies",
+    role: "First Place",
     description:
       "Puzzle game where you control a cat and its companion shadow at the same time",
+    date: "2025",
     url: "https://auroraechoes.itch.io/overshadowed",
-  },
-  {
-    title: "Narnigrams",
-    role: "Creator",
-    description: "Word game for iOS based on the game bananagrams",
-    url: "https://hrln-interactive.vercel.app/",
-  },
-  {
-    title: "Feather & Bone",
-    role: "Creator",
-    description:
-      "Puzzle game where you control a cat and its companion shadow at the same time",
-    url: "https://hrln-interactive.vercel.app/",
   },
 ];
 
@@ -288,8 +281,9 @@ function App() {
         HRLN interactive
       </h1>
       <div className="header">
+        <h2>Harlen Postill</h2>
         <h3 className="subtitle">
-          Software engineer, UI/UX designer & Game Developer
+          Senior Associate Software engineer & UI/UX designer
         </h3>
         <div className="social-icons">
           <a
@@ -335,6 +329,11 @@ function App() {
         </Section>
         <Section title="Projects">
           {projectItems.map((item) => (
+            <Entry key={item.title} {...item} />
+          ))}
+        </Section>
+        <Section title="Honors & Awards">
+          {honorsItems.map((item) => (
             <Entry key={item.title} {...item} />
           ))}
         </Section>
