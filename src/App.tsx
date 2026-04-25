@@ -68,7 +68,7 @@ const projectItems = [
     role: "Creator",
     description:
       "Extremely small weightless browser the size of a widget for simple queries on macOS",
-    url: "https://hrln-interactive.vercel.app/tiny",
+    url: "https://tiny.hrln-interactive.com/tiny",
   },
 ];
 
