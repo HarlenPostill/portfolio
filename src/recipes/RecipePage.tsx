@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { recipes } from "./data";
 import { formatAmount, convertUnit, type UnitSystem } from "./utils";
 import "./recipes.css";
+import Lottie from "lottie-react";
+import pieGuyHi from "../assets/lotties/pieguyhi.json";
 
 export default function RecipePage() {
   const { slug } = useParams<{ slug: string }>();
@@ -281,6 +283,23 @@ export default function RecipePage() {
             </div>
           )}
         </main>
+      </div>
+      <div className="pantry-pal-pill">
+        <div className="pantry-pal-lottie">
+          <Lottie animationData={pieGuyHi} />
+        </div>
+        <div className="pantry-pal-text">
+          <span className="pantry-pal-name">Pantry Pal</span>
+          <span className="pantry-pal-tagline">Your kitchen companion</span>
+        </div>
+        <a
+          href="https://pantrypal.com.au"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pantry-pal-btn"
+        >
+          Get App
+        </a>
       </div>
     </div>
   );
