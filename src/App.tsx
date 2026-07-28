@@ -54,7 +54,7 @@ const projectItems = [
     role: "Creator",
     description:
       "Puzzle adventure game about a robot vacuum navigating an island to reach a house and clean it, released on Steam for macOS and Windows",
-    url: "https://store.steampowered.com/app/4960690/Sweeping_Home/",
+    url: "https://sweeping-home.hrln-interactive.com/",
   },
   {
     title: "Community Compass",
