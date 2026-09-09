@@ -46,6 +46,14 @@ const workItems = [
     date: "Jun 2024 - Now",
     url: "https://www.pantrypal.com.au/",
   },
+  {
+    title: "Ourfit",
+    role: "Founding Engineer",
+    description:
+      "A platform to hire clothes from real people's wardrobes and dress hire businesses - or earn from your own. All in one place",
+    date: "July 2026 - Now",
+    url: "https://ourfit.app/",
+  },
 ];
 
 const projectItems = [
@@ -69,6 +77,13 @@ const projectItems = [
     description:
       "Automatically scan code for accessibility issues and suggests fixes directly in vs code",
     url: "https://marketplace.visualstudio.com/items?itemName=Guidedog-extension.GuideDogVS",
+  },
+  {
+    title: "Anicue",
+    role: "Creator",
+    description:
+      "Skeuomorpic inspired iOS Anime discovery app with social features and recommendations",
+    url: "https://anicue.hrln-interactive.com/",
   },
   {
     title: "Tiny",
