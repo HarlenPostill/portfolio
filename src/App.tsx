@@ -1,396 +1,168 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-} from "react";
+import { useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import AsciiScene from "./scene/AsciiScene";
+import { channels, channelById, type Channel } from "./content";
 import "./App.css";
 
-const shuffleFonts = [
-  "Georgia, serif",
-  "Courier New, monospace",
-  "Impact, sans-serif",
-  "Palatino, serif",
-  "Trebuchet MS, sans-serif",
-  "Verdana, sans-serif",
-  "Garamond, serif",
-  "Brush Script MT, cursive",
-  "Lucida Console, monospace",
-  "Comic Sans MS, cursive",
-  "Times New Roman, serif",
-  "Arial Black, sans-serif",
-  "Copperplate, fantasy",
-  "Didot, serif",
-  "Futura, sans-serif",
-  "Gill Sans, sans-serif",
-  "Baskerville, serif",
-  "Rockwell, serif",
+const socials = [
+  { label: "x", href: "https://x.com/hrlninteractive", name: "X" },
+  {
+    label: "bsky",
+    href: "https://bsky.app/profile/hrln-interactive.com",
+    name: "Bluesky",
+  },
+  {
+    label: "in",
+    href: "https://linkedin.com/in/harlenpostill",
+    name: "LinkedIn",
+  },
+  { label: "gh", href: "https://github.com/HarlenPostill", name: "GitHub" },
 ];
 
-const workItems = [
-  {
-    title: "OneTeam Services",
-    role: "Senior Associate Software Engineer",
-    description:
-      "Innovative software solutions for Fintech enterprise collaboration and automation",
-    date: "Aug 2023 - April 2026",
-    url: "https://tax-oneteam.vercel.app/",
-  },
-  {
-    title: "PantryPal",
-    role: "Lead Founding Engineer",
-    description:
-      "Meal planning app reducing food waste with intelligent recipe suggestions",
-    date: "Jun 2024 - Now",
-    url: "https://www.pantrypal.com.au/",
-  },
-  {
-    title: "Ourfit",
-    role: "Founding Engineer",
-    description:
-      "A platform to hire clothes from real people's wardrobes and dress hire businesses - or earn from your own. All in one place",
-    date: "July 2026 - Now",
-    url: "https://ourfit.app/",
-  },
-];
+const hostOf = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
 
-const projectItems = [
-  {
-    title: "Sweeping Home",
-    role: "Creator",
-    description:
-      "Puzzle adventure game about a robot vacuum navigating an island to reach a house and clean it, released on Steam for macOS and Windows",
-    url: "https://sweeping-home.hrln-interactive.com/",
-  },
-  {
-    title: "Community Compass",
-    role: "Lead Developer",
-    description:
-      "Local community map for Ultimo and nearby areas to get involved and discover resources",
-    url: "https://communitycompass.com.au/",
-  },
-  {
-    title: "Guidedog vs code",
-    role: "Co Creator",
-    description:
-      "Automatically scan code for accessibility issues and suggests fixes directly in vs code",
-    url: "https://marketplace.visualstudio.com/items?itemName=Guidedog-extension.GuideDogVS",
-  },
-  {
-    title: "Anicue",
-    role: "Creator",
-    description:
-      "Skeuomorpic inspired iOS Anime discovery app with social features and recommendations",
-    url: "https://anicue.hrln-interactive.com/",
-  },
-  {
-    title: "Tiny",
-    role: "Creator",
-    description:
-      "Extremely small weightless browser the size of a widget for simple queries on macOS",
-    url: "https://tiny.hrln-interactive.com/tiny",
-  },
-];
-
-const honorsItems = [
-  {
-    title: "Samsung Solve for Tomorrow Australia",
-    role: "Runner Up",
-    description:
-      "Gamifies community mapping to find accessible routes for wheelchair users on iOS & android",
-    date: "2024",
-    url: "https://news.samsung.com/au/inventive-device-to-help-prevent-overuse-of-pesticides-in-agriculture-wins-samsungs-solve-for-tomorrow-competition",
-  },
-  {
-    title: "UTS Tech fest - Game Design Methodologies",
-    role: "First Place",
-    description:
-      "Puzzle game where you control a cat and its companion shadow at the same time",
-    date: "2025",
-    url: "https://auroraechoes.itch.io/overshadowed",
-  },
-];
-
-function LinkPreview({
-  url,
-  top,
-  visible,
+function Panel({
+  channel,
+  onClose,
 }: {
-  url: string;
-  top: number;
-  visible: boolean;
+  channel: Channel;
+  onClose: () => void;
 }) {
-  const domain = (() => {
-    try {
-      return new URL(url).hostname;
-    } catch {
-      return url;
-    }
-  })();
+  const info = channelById(channel)!;
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    headingRef.current?.focus({ preventScroll: true });
+  }, [channel]);
+
   return (
-    <div className={`link-preview${visible ? " visible" : ""}`} style={{ top }}>
-      <div className="link-preview-frame">
-        <iframe
-          key={url}
-          src={url}
-          title={domain}
-          sandbox="allow-scripts allow-same-origin"
-        />
+    <aside className="panel" aria-labelledby="panel-title" key={channel}>
+      <div className="panel-bar">
+        <span className="panel-path">
+          C:\HRLN\{info.label.toUpperCase()}&gt;
+        </span>
+        <button className="panel-close" onClick={onClose} aria-label="Close">
+          [esc]
+        </button>
       </div>
-    </div>
-  );
-}
 
-function Entry({
-  title,
-  role,
-  description,
-  date,
-  url: _url,
-}: {
-  title: string;
-  role: string;
-  description: string;
-  date?: string;
-  url?: string;
-}) {
-  return (
-    <div className="entry">
-      <div className="entry-header">
-        <div className="entry-title">
-          <h3>{title}</h3>
-          <h4>{role}</h4>
-        </div>
-        {date && <h4 className="entry-date">{date}</h4>}
+      <div className="panel-tabs" role="tablist">
+        {channels.map((c) => (
+          <Link
+            key={c.id}
+            to={`/${c.id}`}
+            role="tab"
+            aria-selected={c.id === channel}
+            className={`panel-tab${c.id === channel ? " is-active" : ""}`}
+          >
+            {c.number} {c.label}
+          </Link>
+        ))}
       </div>
-      <p>{description}</p>
-    </div>
-  );
-}
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  const [highlight, setHighlight] = useState({ top: 0, height: 0 });
-  const [visible, setVisible] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState("");
-  const [previewTop, setPreviewTop] = useState(0);
-  const listRef = useRef<HTMLDivElement>(null);
+      <header className="panel-head">
+        <h2 id="panel-title" ref={headingRef} tabIndex={-1}>
+          {info.label}
+        </h2>
+        <p>{info.blurb}</p>
+      </header>
 
-  const handleEntryEnter = (e: React.MouseEvent<HTMLElement>, url?: string) => {
-    if (!listRef.current) return;
-    const listRect = listRef.current.getBoundingClientRect();
-    const entryRect = e.currentTarget.getBoundingClientRect();
-    setHighlight({
-      top: entryRect.top - listRect.top,
-      height: entryRect.height,
-    });
-    setVisible(true);
-    setPreviewUrl(url || "");
-    if (url) setPreviewTop(entryRect.top - listRect.top + entryRect.height / 2);
-  };
-
-  return (
-    <div className="section">
-      <h2>{title}</h2>
-      <div
-        className="section-entries"
-        ref={listRef}
-        onMouseLeave={() => setVisible(false)}
-      >
-        {React.Children.map(children, (child) => {
-          const url = React.isValidElement(child)
-            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (child.props as any).url
-            : undefined;
-          const Tag = url ? "a" : "div";
-          return (
-            <Tag
-              className="entry-hover-wrapper"
-              onMouseEnter={(e: React.MouseEvent<HTMLElement>) =>
-                handleEntryEnter(e, url)
-              }
-              {...(url
-                ? { href: url, target: "_blank", rel: "noreferrer" }
-                : {})}
+      <ol className="entries">
+        {info.items.map((item, i) => (
+          <li key={item.title} style={{ animationDelay: `${120 + i * 70}ms` }}>
+            <a
+              className="entry"
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
             >
-              {child}
-            </Tag>
-          );
-        })}
-        <div
-          className={`section-highlight${visible ? " visible" : ""}`}
-          style={{ top: highlight.top - 6, height: highlight.height + 12 }}
-        />
-        {previewUrl && (
-          <LinkPreview url={previewUrl} top={previewTop} visible={visible} />
-        )}
-      </div>
-    </div>
+              <span className="entry-index">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="entry-body">
+                <span className="entry-top">
+                  <span className="entry-title">{item.title}</span>
+                  {item.date && <span className="entry-date">{item.date}</span>}
+                </span>
+                <span className="entry-role">{item.role}</span>
+                <span className="entry-desc">{item.description}</span>
+                <span className="entry-link">→ {hostOf(item.url)}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </aside>
   );
 }
 
 function App() {
-  const [phase, setPhase] = useState<"center" | "settle" | "done">("center");
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const [titleStyle, setTitleStyle] = useState<React.CSSProperties>({});
-  const [titleFont, setTitleFont] = useState<string | undefined>(undefined);
-  const fontInterval = useRef<ReturnType<typeof setInterval>>(null);
-
-  const startFontShuffle = useCallback(() => {
-    let i = 0;
-    fontInterval.current = setInterval(() => {
-      setTitleFont(shuffleFonts[i % shuffleFonts.length]);
-      i++;
-    }, 70);
-  }, []);
-
-  const stopFontShuffle = useCallback(() => {
-    if (fontInterval.current) clearInterval(fontInterval.current);
-    setTitleFont(undefined);
-  }, []);
-
-  useLayoutEffect(() => {
-    if (titleRef.current) {
-      const rect = titleRef.current.getBoundingClientRect();
-      const scale = 1.5;
-      const targetX = window.innerWidth / 2 - (rect.width * scale) / 2;
-      const targetY = window.innerHeight / 2 - (rect.height * scale) / 2;
-      const dx = targetX - rect.left;
-      const dy = targetY - rect.top;
-      setTitleStyle({
-        transform: `translate(${dx}px, ${dy}px) scale(${scale})`,
-      });
-    }
-  }, []);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const active = channelById(pathname.replace(/\//g, ""))?.id;
 
   useEffect(() => {
-    const timer = setTimeout(() => setPhase("settle"), 600);
-    return () => clearTimeout(timer);
-  }, []);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "Escape") navigate("/");
+      const n = Number(e.key);
+      if (n >= 1 && n <= channels.length) navigate(`/${channels[n - 1].id}`);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navigate]);
 
   useEffect(() => {
-    if (phase === "settle") {
-      setTitleStyle({});
-      startFontShuffle();
-      const timer = setTimeout(() => {
-        stopFontShuffle();
-        setPhase("done");
-      }, 1000);
-      return () => {
-        clearTimeout(timer);
-        stopFontShuffle();
-      };
-    }
-  }, [phase, startFontShuffle, stopFontShuffle]);
+    const info = channelById(active);
+    document.title = info
+      ? `${info.label} — Harlen Postill`
+      : "Harlen Postill | Software Engineer & UI/UX Designer";
+  }, [active]);
 
   return (
-    <div className={`app intro-${phase}`}>
-      <h1
-        className="title intro-title"
-        ref={titleRef}
-        style={{
-          ...titleStyle,
-          ...(titleFont ? { fontFamily: titleFont } : {}),
-        }}
-      >
-        HRLN interactive
-      </h1>
-      <div className="header">
-        <h2>Harlen Postill</h2>
-        <h3 className="subtitle">
-          Senior Associate Software engineer & UI/UX designer
-        </h3>
-        <div className="social-icons">
+    <div className={`app${active ? " has-panel" : ""}`}>
+      <AsciiScene
+        active={active}
+        panelOpen={!!active}
+        onSelect={(c) => navigate(c === active ? "/" : `/${c}`)}
+      />
+
+      <header className="masthead">
+        <Link to="/" className="masthead-name">
+          <h1>Harlen Postill</h1>
+        </Link>
+        <p className="masthead-role">software engineer &amp; ui/ux designer</p>
+      </header>
+
+      <nav className="socials" aria-label="Elsewhere">
+        {socials.map((s) => (
           <a
-            className="social-icon"
-            href="https://x.com/hrln985"
+            key={s.label}
+            href={s.href}
             target="_blank"
             rel="noreferrer"
-            aria-label="X"
+            aria-label={s.name}
           >
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
+            [{s.label}]
           </a>
-          <a
-            className="social-icon"
-            href="https://bsky.app/profile/hrln-interactive.com"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="BlueSky"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="256"
-              height="226"
-              preserveAspectRatio="xMidYMid"
-              viewBox="0 0 256 226"
-            >
-              <path
-                fill="currentColor"
-                d="M55.491 15.172c29.35 22.035 60.917 66.712 72.509 90.686 11.592-23.974 43.159-68.651 72.509-90.686C221.686-.727 256-13.028 256 26.116c0 7.818-4.482 65.674-7.111 75.068-9.138 32.654-42.436 40.983-72.057 35.942 51.775 8.812 64.946 38 36.501 67.187-54.021 55.433-77.644-13.908-83.696-31.676-1.11-3.257-1.63-4.78-1.637-3.485-.008-1.296-.527.228-1.637 3.485-6.052 17.768-29.675 87.11-83.696 31.676-28.445-29.187-15.274-58.375 36.5-67.187-29.62 5.041-62.918-3.288-72.056-35.942C4.482 91.79 0 33.934 0 26.116 0-13.028 34.314-.727 55.491 15.172Z"
-              />
-            </svg>
-          </a>
-          <a
-            className="social-icon"
-            href="https://linkedin.com/in/harlenpostill"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-          </a>
-          <a
-            className="social-icon"
-            href="https://github.com/HarlenPostill"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-          </a>
-          <a
-            className="social-icon"
-            href="/recipes"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Recipes"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" />
-            </svg>
-          </a>
-        </div>
-      </div>
-      <div className="sections">
-        <Section title="Work">
-          {workItems.map((item) => (
-            <Entry key={item.title} {...item} />
-          ))}
-        </Section>
-        <Section title="Projects">
-          {projectItems.map((item) => (
-            <Entry key={item.title} {...item} />
-          ))}
-        </Section>
-        <Section title="Honors & Awards">
-          {honorsItems.map((item) => (
-            <Entry key={item.title} {...item} />
-          ))}
-        </Section>
-      </div>
+        ))}
+        <Link to="/recipes" aria-label="Recipes">
+          [recipes]
+        </Link>
+      </nav>
+
+      <footer className="footnote">
+        <span>HRLN INTERACTIVE ©{new Date().getFullYear()}</span>
+        <span className="footnote-hint">drag to turn · press 1–4 to tune</span>
+      </footer>
+
+      {active && <Panel channel={active} onClose={() => navigate("/")} />}
     </div>
   );
 }

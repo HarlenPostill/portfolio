@@ -75,11 +75,11 @@
   display: flex;
   flex-direction: column;
   border-radius: 12px;
-  border: 1px solid rgba(156, 112, 82, 0.2);
+  border: 1px solid rgba(43, 43, 43, 0.2);
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  background: rgba(255, 248, 241, 0.6);
+  background: rgba(255, 255, 255, 0.6);
   transition:
     box-shadow 0.2s ease,
     border-color 0.2s ease,
@@ -88,17 +88,17 @@
 
 .recipe-card:hover {
   box-shadow:
-    0 8px 24px rgba(90, 55, 30, 0.1),
-    0 2px 6px rgba(90, 55, 30, 0.06);
-  border-color: rgba(156, 112, 82, 0.35);
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+  border-color: rgba(43, 43, 43, 0.35);
   transform: translateY(-2px);
 }
 
 .recipe-card-image {
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #e8d5c4;
-  border-bottom: 1px solid rgba(156, 112, 82, 0.15);
+  background: #f2f2f2;
+  border-bottom: 1px solid rgba(43, 43, 43, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -185,9 +185,9 @@
 .recipe-image-placeholder {
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #e8d5c4;
+  background: #f2f2f2;
   border-radius: 12px;
-  border: 2px dashed rgba(156, 112, 82, 0.35);
+  border: 2px dashed rgba(43, 43, 43, 0.35);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -217,7 +217,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-primary);
-  background: rgba(66, 117, 76, 0.1);
+  background: rgba(43, 43, 43, 0.1);
   padding: 3px 9px;
   border-radius: 99px;
 }
@@ -244,11 +244,11 @@
   align-items: center;
   gap: 0;
   margin-top: 4px;
-  border: 1px solid rgba(156, 112, 82, 0.2);
+  border: 1px solid rgba(43, 43, 43, 0.2);
   border-radius: 10px;
   overflow: hidden;
   align-self: flex-start;
-  background: rgba(255, 248, 241, 0.6);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .recipe-meta-item {
@@ -262,7 +262,7 @@
 .recipe-meta-divider {
   width: 1px;
   height: 32px;
-  background: rgba(156, 112, 82, 0.2);
+  background: rgba(43, 43, 43, 0.2);
   flex-shrink: 0;
 }
 
@@ -291,8 +291,8 @@
   gap: 20px;
   flex-wrap: wrap;
   padding: 14px 18px;
-  background: rgba(255, 248, 241, 0.6);
-  border: 1px solid rgba(156, 112, 82, 0.2);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(43, 43, 43, 0.2);
   border-radius: 10px;
   align-self: stretch;
 }
@@ -317,7 +317,7 @@
   display: flex;
   align-items: center;
   gap: 0;
-  border: 1px solid rgba(156, 112, 82, 0.25);
+  border: 1px solid rgba(43, 43, 43, 0.25);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -341,7 +341,7 @@
 }
 
 .scaler-btn:hover {
-  background: rgba(229, 208, 188, 0.5);
+  background: rgba(43, 43, 43, 0.06);
   color: var(--text-primary);
 }
 
@@ -353,8 +353,8 @@
   font-weight: 600;
   color: var(--text-primary);
   letter-spacing: -0.2px;
-  border-left: 1px solid rgba(156, 112, 82, 0.2);
-  border-right: 1px solid rgba(156, 112, 82, 0.2);
+  border-left: 1px solid rgba(43, 43, 43, 0.2);
+  border-right: 1px solid rgba(43, 43, 43, 0.2);
   padding: 0 4px;
   height: 32px;
   display: flex;
@@ -365,7 +365,7 @@
 /* Unit toggle */
 .unit-toggle {
   display: flex;
-  border: 1px solid rgba(156, 112, 82, 0.25);
+  border: 1px solid rgba(43, 43, 43, 0.25);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -387,7 +387,7 @@
 }
 
 .unit-toggle button + button {
-  border-left: 1px solid rgba(156, 112, 82, 0.2);
+  border-left: 1px solid rgba(43, 43, 43, 0.2);
 }
 
 .unit-toggle button.active {
@@ -396,7 +396,7 @@
 }
 
 .unit-toggle button:not(.active):hover {
-  background: rgba(229, 208, 188, 0.5);
+  background: rgba(43, 43, 43, 0.06);
   color: var(--text-primary);
 }
 
@@ -445,7 +445,7 @@
   font-weight: 700;
   letter-spacing: -0.44px;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(156, 112, 82, 0.2);
+  border-bottom: 1px solid rgba(43, 43, 43, 0.2);
 }
 
 .ingredient-group {
@@ -556,7 +556,7 @@
   flex-direction: column;
   gap: 0;
   padding-left: 32px;
-  border-left: 1.5px solid rgba(156, 112, 82, 0.15);
+  border-left: 1.5px solid rgba(43, 43, 43, 0.15);
   margin-left: 10px;
 }
 
@@ -575,7 +575,7 @@
 }
 
 .method-step:hover {
-  background: rgba(229, 208, 188, 0.3);
+  background: rgba(43, 43, 43, 0.04);
 }
 
 .method-step.done {
@@ -586,7 +586,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 1.5px solid rgba(156, 112, 82, 0.35);
+  border: 1.5px solid rgba(43, 43, 43, 0.35);
   background: transparent;
   display: flex;
   align-items: center;
@@ -625,8 +625,8 @@
   justify-content: center;
   padding: 20px;
   border-radius: 10px;
-  background: rgba(66, 117, 76, 0.08);
-  border: 1px solid rgba(66, 117, 76, 0.2);
+  background: rgba(43, 43, 43, 0.08);
+  border: 1px solid rgba(43, 43, 43, 0.2);
   font-family: "Funnel Display", sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -644,14 +644,14 @@
   align-items: center;
   gap: 10px;
   padding: 6px 8px 6px 8px;
-  background: rgba(255, 248, 241, 0.92);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(156, 112, 82, 0.25);
+  border: 1px solid rgba(43, 43, 43, 0.25);
   border-radius: 99px;
   box-shadow:
-    0 8px 32px rgba(90, 55, 30, 0.14),
-    0 2px 8px rgba(90, 55, 30, 0.08);
+    0 8px 32px rgba(0, 0, 0, 0.14),
+    0 2px 8px rgba(0, 0, 0, 0.08);
   white-space: nowrap;
   z-index: 100;
 }
