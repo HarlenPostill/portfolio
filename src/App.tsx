@@ -17,6 +17,7 @@ const socials = [
     name: "LinkedIn",
   },
   { label: "gh", href: "https://github.com/HarlenPostill", name: "GitHub" },
+  { label: "yt", href: "https://www.youtube.com/@hrln-interative", name: "YouTube" },
 ];
 
 const hostOf = (url: string) => {
