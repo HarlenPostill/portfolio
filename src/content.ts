@@ -28,7 +28,7 @@ export const channels: ChannelInfo[] = [
         role: "Creator",
         description:
           "Skeuomorphic inspired iOS anime discovery app with social features and recommendations.",
-        url: "https://anicue.hrln-interactive.com/",
+        url: "https://anicue.moe/",
       },
       {
         title: "SideKit",
