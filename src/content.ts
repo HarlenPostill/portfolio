@@ -31,6 +31,12 @@ export const channels: ChannelInfo[] = [
         url: "https://anicue.hrln-interactive.com/",
       },
       {
+        title: "SideKit",
+        role: "Creator",
+        description: "Custom Android launcher built for Sidephones.",
+        url: "https://sidekit.hrln-interactive.com/",
+      },
+      {
         title: "PantryPal",
         role: "Lead Founding Engineer",
         description:
