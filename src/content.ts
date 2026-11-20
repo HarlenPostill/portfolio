@@ -80,7 +80,7 @@ export const channels: ChannelInfo[] = [
         description:
           "Hire clothes from real people's wardrobes and dress hire businesses — or earn from your own. All in one place.",
         date: "Jul 2026 – Now",
-        url: "https://ourfit.app/",
+        url: "https://www.linkedin.com/company/ourfit/people/",
       },
       {
         title: "OneTeam",
@@ -88,7 +88,7 @@ export const channels: ChannelInfo[] = [
         description:
           "Software for fintech enterprise collaboration and automation.",
         date: "Aug 2023 – Apr 2026",
-        url: "https://tax-oneteam.vercel.app/",
+        url: "https://www.linkedin.com/company/oneteam-services/posts/",
       },
       {
         title: "Community Compass",
