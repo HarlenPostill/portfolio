@@ -1,20 +1,16 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { hydrateRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import './index.css'
-import App from './App.tsx'
+import AppRoutes from './routes.tsx'
 
-createRoot(document.getElementById('root')!).render(
+// The HTML is prerendered at build time (see scripts/prerender.mjs), so
+// hydrate it instead of rendering from scratch.
+hydrateRoot(
+  document.getElementById('root')!,
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/apps" element={<App />} />
-        <Route path="/games" element={<App />} />
-        <Route path="/work" element={<App />} />
-        <Route path="/awards" element={<App />} />
-        <Route path="/sponsors" element={<App />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   </StrictMode>,
 )

@@ -127,3 +127,18 @@ export const channels: ChannelInfo[] = [
 
 export const channelById = (id: string | undefined) =>
   channels.find((c) => c.id === id);
+
+export const TAGLINE = "Software Engineer, UI/UX Designer & Digital Influencer";
+
+export const SPONSOR_EMAIL = "harlen.interactive@gmail.com";
+
+export const socials = [
+  { name: "X", href: "https://x.com/hrlninteractive" },
+  { name: "Bluesky", href: "https://bsky.app/profile/hrln-interactive.com" },
+  { name: "LinkedIn", href: "https://linkedin.com/in/harlenpostill" },
+  { name: "GitHub", href: "https://github.com/HarlenPostill" },
+  { name: "YouTube", href: "https://www.youtube.com/@hrln-interative" },
+];
+
+// Every path the site serves. The prerender step writes one HTML file per path.
+export const paths = ["/", "/apps", "/games", "/work", "/awards", "/sponsors"];

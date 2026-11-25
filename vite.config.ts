@@ -10,4 +10,8 @@ export default defineConfig({
       },
     }),
   ],
+  define: {
+    // The footer year baked into the prerendered HTML.
+    __BUILD_YEAR__: JSON.stringify(new Date().getFullYear()),
+  },
 })

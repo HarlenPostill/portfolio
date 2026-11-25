@@ -368,3 +368,27 @@
     transition: none;
   }
 }
+
+/* Theme toggle icon: chosen by CSS so the prerendered HTML shows the right
+   one before JavaScript runs. Sun in dark mode, moon in light mode. */
+.theme-toggle .theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .theme-icon-sun {
+  display: block;
+}
+
+:root[data-theme="dark"] .theme-toggle .theme-icon-moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .theme-icon-sun {
+    display: block;
+  }
+
+  :root:not([data-theme="light"]) .theme-toggle .theme-icon-moon {
+    display: none;
+  }
+}

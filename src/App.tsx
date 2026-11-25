@@ -1,6 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { channels, channelById, type Channel } from "./content";
+import {
+  channels,
+  channelById,
+  socials,
+  SPONSOR_EMAIL,
+  TAGLINE,
+  type Channel,
+} from "./content";
 import PixelTitle from "./PixelTitle";
 import ShaderBackground from "./ShaderBackground";
 import DevStrengthPanel from "./DevStrengthPanel";
@@ -26,7 +33,20 @@ const icons: Record<string, React.ReactNode> = {
 
 type Theme = "light" | "dark";
 
-const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+// Null while prerendering at build time, where there is no window.
+const darkQuery =
+  typeof window === "undefined"
+    ? null
+    : window.matchMedia("(prefers-color-scheme: dark)");
+
+// False in the prerendered HTML and during hydration, true afterwards.
+const noop = () => () => {};
+const useHydrated = () =>
+  useSyncExternalStore(
+    noop,
+    () => true,
+    () => false,
+  );
 
 const readStored = (): Theme | null => {
   try {
@@ -40,15 +60,15 @@ const readStored = (): Theme | null => {
 function ThemeToggle() {
   const [stored, setStored] = useState<Theme | null>(readStored);
   const [system, setSystem] = useState<Theme>(
-    darkQuery.matches ? "dark" : "light",
+    darkQuery?.matches ? "dark" : "light",
   );
   const theme = stored ?? system;
 
   useEffect(() => {
     const onChange = (e: MediaQueryListEvent) =>
       setSystem(e.matches ? "dark" : "light");
-    darkQuery.addEventListener("change", onChange);
-    return () => darkQuery.removeEventListener("change", onChange);
+    darkQuery?.addEventListener("change", onChange);
+    return () => darkQuery?.removeEventListener("change", onChange);
   }, []);
 
   useEffect(() => {
@@ -69,8 +89,11 @@ function ThemeToggle() {
     setStored(value);
   };
 
+  // The prerendered HTML can't know the visitor's theme, so the label waits
+  // for hydration and the icon is picked by CSS (see .theme-icon in App.css).
+  const hydrated = useHydrated();
   const label =
-    theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+    hydrated && theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
 
   return (
     <button
@@ -79,8 +102,7 @@ function ThemeToggle() {
       aria-label={label}
       title={label}
     >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        {theme === "dark" ? (
+      <svg className="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
           <g
             fill="none"
             stroke="currentColor"
@@ -90,7 +112,8 @@ function ThemeToggle() {
             <circle cx="12" cy="12" r="4" />
             <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
           </g>
-        ) : (
+      </svg>
+      <svg className="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
           <path
             fill="none"
             stroke="currentColor"
@@ -98,7 +121,6 @@ function ThemeToggle() {
             strokeLinejoin="round"
             d="M20.5 14.1A8.5 8.5 0 0 1 9.9 3.5a8.5 8.5 0 1 0 10.6 10.6Z"
           />
-        )}
       </svg>
     </button>
   );
@@ -106,15 +128,16 @@ function ThemeToggle() {
 
 type Section = Channel | "sponsors";
 
-const SPONSOR_EMAIL = "harlen.interactive@gmail.com";
-
-const socials = [
-  { name: "X", href: "https://x.com/hrlninteractive" },
-  { name: "Bluesky", href: "https://bsky.app/profile/hrln-interactive.com" },
-  { name: "LinkedIn", href: "https://linkedin.com/in/harlenpostill" },
-  { name: "GitHub", href: "https://github.com/HarlenPostill" },
-  { name: "YouTube", href: "https://www.youtube.com/@hrln-interative" },
-];
+// The build year in the prerendered HTML, then the visitor's clock once
+// hydrated, in case the site was built in an earlier year.
+function Year() {
+  const year = useSyncExternalStore(
+    noop,
+    () => new Date().getFullYear(),
+    () => __BUILD_YEAR__,
+  );
+  return <>{year}</>;
+}
 
 function App() {
   const { pathname } = useLocation();
@@ -153,7 +176,7 @@ function App() {
             <PixelTitle />
           </Link>
           <p className="tagline">
-            Software Engineer, UI/UX Designer &amp; Digital Influencer
+            {TAGLINE}
           </p>
         </div>
         <ThemeToggle />
@@ -262,7 +285,9 @@ function App() {
           } as React.CSSProperties
         }
       >
-        <span>© {new Date().getFullYear()} HRLN Interactive</span>
+        <span>
+          © <Year /> HRLN Interactive
+        </span>
         <nav className="socials" aria-label="Social links">
           {socials.map((s) => (
             <a
